@@ -1,8 +1,7 @@
 <template>
   <div>
-    <span v-for="card in cards" :key="card">
-      <!-- card.sig-->
-      <VuePlayingCard :signature="card" :height="140" />
+    <span v-for="card in cards" :key="card.signature">
+      <VuePlayingCard :signature="card.signature" :height="140" />
     </span>
   </div>
 </template>

@@ -1,27 +1,26 @@
 <template>
   <div id="app">
-    <CardRow v-for="row in rows" :key="row.id" v-bind:cards="cards" />
-    <button @click="startGame" />
+    <div>
+      <CardRow v-for="row in getRows" :key="row.id" :cards="row.cards" />
+    </div>
+    <v-btn @click="startGame">start game</v-btn>
   </div>
 </template>
 
 <script>
-import CardRow from "./components/CardRow";
 import { mapActions, mapGetters } from "vuex";
+import CardRow from "./components/CardRow";
 
 export default {
   name: "App",
   components: { CardRow },
+  data: () => ({}),
   methods: {
     ...mapActions(["startGame"])
   },
   computed: {
     ...mapGetters(["getError", "getRows"])
-  },
-  data: () => ({
-    rows: [],
-    cards: ["js", "kh", "as"]
-  })
+  }
 };
 </script>
 

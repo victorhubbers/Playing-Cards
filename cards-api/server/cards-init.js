@@ -42,7 +42,7 @@ const cards = [
   {
     suit: "hearts",
     value: 10,
-    signature: "10h"
+    signature: "th"
   },
   {
     suit: "hearts",
@@ -107,7 +107,7 @@ const cards = [
   {
     suit: "diamonds",
     value: 10,
-    signature: "10d"
+    signature: "td"
   },
   {
     suit: "diamonds",
@@ -172,7 +172,7 @@ const cards = [
   {
     suit: "clubs",
     value: 10,
-    signature: "10c"
+    signature: "tc"
   },
   {
     suit: "clubs",
@@ -237,7 +237,7 @@ const cards = [
   {
     suit: "spades",
     value: 10,
-    signature: "10s"
+    signature: "ts"
   },
   {
     suit: "spades",
