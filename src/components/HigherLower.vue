@@ -16,11 +16,10 @@ export default {
   display: inline-grid;
   width: 94px;
   border-radius: 5px;
-  border: 3px dashed darkgray;
-  background: lightgray;
+  border: 3px dashed rgba(100, 100, 100, 1);
+  background: rgba(211, 211, 211, 0.6);
 }
 #hoverWrapper {
-  /*display: inline-grid;*/
   width: 94px;
 }
 .child {

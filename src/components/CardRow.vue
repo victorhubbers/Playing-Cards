@@ -6,7 +6,7 @@
         v-for="card in cards"
         :key="card.signature"
         :signature="card.signature"
-        :height="140"
+        :height="height"
       />
       <HigherLower />
       <!--          <v-btn @click="click">ss</v-btn>-->
@@ -20,7 +20,10 @@ import HigherLower from "./HigherLower";
 
 export default {
   name: "CardRow",
-  props: ["cards"],
+  props: {
+    cards: Array,
+    height: Number
+  },
   components: {
     VuePlayingCard,
     HigherLower
