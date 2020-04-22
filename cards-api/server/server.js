@@ -1,14 +1,14 @@
-const bodyParser = require("body-parser");
-const express = require("express");
-const TodoList = require("./todo.js");
+import bodyParser from "body-parser";
+import express from "express";
+import cors from "cors";
+
 const app = express();
-const cors = require("cors");
 
 // Setup the body parser
 app.use(bodyParser.json());
 app.use(cors());
 // Data store (in memory)
-const todoList = new TodoList();
+const todoList = [];
 
 app.get("/api/todo", function(req, res) {
   res.status(200);
@@ -37,4 +37,4 @@ app.delete("/api/todo/:todoItem", function(req, res) {
   }
 });
 
-module.exports = app;
+export default app;
