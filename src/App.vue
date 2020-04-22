@@ -1,15 +1,20 @@
 <template>
   <div id="app">
-    <button @click="startGame" />
+    <div>
+      <CardRow v-for="row in getRows" :key="row.id" :cards="row.cards" />
+    </div>
+    <v-btn @click="startGame">start game</v-btn>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import CardRow from "./components/CardRow";
 
 export default {
   name: "App",
-  components: {},
+  components: { CardRow },
+  data: () => ({}),
   methods: {
     ...mapActions(["startGame"])
   },
@@ -21,11 +26,7 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 18px;
 }
 </style>
