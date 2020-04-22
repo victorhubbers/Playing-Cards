@@ -5,13 +5,16 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "App",
   components: {},
   methods: {
     ...mapActions(["startGame"])
+  },
+  computed: {
+    ...mapGetters(["getError", "getRows"])
   }
 };
 </script>
