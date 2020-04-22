@@ -1,11 +1,18 @@
 <template>
-  <div id="app"></div>
+  <div id="app">
+    <button @click="startGame" />
+  </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "App",
-  components: {}
+  components: {},
+  methods: {
+    ...mapActions(["startGame"])
+  }
 };
 </script>
 
