@@ -13,14 +13,26 @@ let deck = shuffleFisherYates(cards);
 //(re)shuffle the deck
 
 //draw card(s) from the deck
-app.get("deck/card", function(req, res) {
-  res.status(200);
-  res.json();
+app.get("/deck/cards", function(req, res) {
+  const amount = req.query.amount;
+  if (amount === undefined) {
+    res.status(400).json("Must specify amount");
+  } else {
+    if (amount <= deck.length) {
+      const data = deck.splice(-amount);
+      res.status(200).json(data);
+    } else {
+      res.status(406).json("Deck ran out");
+    }
+  }
 });
 
 //return cards to the deck
-app.post("deck/cards", function(req, res) {
-  deck = shuffleFisherYates(deck);
+app.post("/deck/cards", function(req, res) {
+  const returnedCards = req.body;
+  deck = shuffleFisherYates(deck.concat(returnedCards));
+
+  res.status(200);
 });
 
 function shuffleFisherYates(deck) {
