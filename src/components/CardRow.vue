@@ -1,14 +1,14 @@
 <template>
   <div>
     <div id="container">
-      <HigherLower />
+      <HigherLower :id="left" />
       <VuePlayingCard
         v-for="card in cards"
         :key="card.signature"
         :signature="card.signature"
         :height="height"
       />
-      <HigherLower />
+      <HigherLower :id="right" />
       <!--          <v-btn @click="click">ss</v-btn>-->
     </div>
   </div>
@@ -23,6 +23,12 @@ export default {
   props: {
     cards: Array,
     height: Number
+  },
+  data() {
+    return {
+      left: "left",
+      right: "right"
+    };
   },
   components: {
     VuePlayingCard,

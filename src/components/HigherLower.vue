@@ -1,13 +1,25 @@
 <template>
   <div class="parent" id="hoverWrapper">
-    <v-icon class="child" color="#009688" size="50">mdi-arrow-up-bold</v-icon>
-    <v-icon class="child" color="#F44336" size="50">mdi-arrow-down-bold</v-icon>
+    <v-icon @click="drawHigher" class="child" color="#009688" size="50"
+      >mdi-arrow-up-bold</v-icon
+    >
+    <v-icon @click="drawLower" class="child" color="#F44336" size="50"
+      >mdi-arrow-down-bold</v-icon
+    >
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
-  name: "HigherLower"
+  name: "HigherLower",
+  props: {
+    id: String
+  },
+  methods: {
+    ...mapActions(["drawHigher", "drawLower"])
+  }
 };
 </script>
 
