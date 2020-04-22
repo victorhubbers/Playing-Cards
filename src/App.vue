@@ -1,18 +1,32 @@
 <template>
   <div id="app">
     <CardRow v-for="row in getRows" :key="row.id" :cards="row.cards" />
-    <v-btn @click="startGame">start game</v-btn>
+    <fab
+      position="bottom-right"
+      bg-color="#000000"
+      :actions="fabActions"
+      icon-size="small"
+      @startGame="startGame"
+    ></fab>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 import CardRow from "./components/CardRow";
+import fab from "vue-fab";
 
 export default {
   name: "App",
-  components: { CardRow },
-  data: () => ({}),
+  components: { CardRow, fab },
+  data: () => ({
+    fabActions: [
+      {
+        name: "startGame",
+        icon: "play_circle_outline" //TBD: if in progress: restart option
+      }
+    ]
+  }),
   methods: {
     ...mapActions(["startGame"])
   },
