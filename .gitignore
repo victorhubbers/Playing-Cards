@@ -1,7 +1,6 @@
 .DS_Store
 node_modules
 /dist
-cards-api
 
 # local env files
 .env.local
