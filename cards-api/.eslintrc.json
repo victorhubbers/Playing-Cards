@@ -1,5 +1,5 @@
 {
-  "extends": ["eslint:recommended", "google"],
+  "extends": ["plugin:prettier/recommended"],
   "parserOptions": {
     "ecmaVersion": 6
   },

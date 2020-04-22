@@ -2,6 +2,8 @@ import bodyParser from "body-parser";
 import express from "express";
 import cors from "cors";
 
+import cards from "./cards-init.js";
+
 const app = express();
 
 // Setup the body parser
