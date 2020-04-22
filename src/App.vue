@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <div>
-      <CardRow v-for="row in getRows" :key="row.id" :cards="row.cards" />
-    </div>
+    <CardRow v-for="row in getRows" :key="row.id" :cards="row.cards" />
     <v-btn @click="startGame">start game</v-btn>
   </div>
 </template>
