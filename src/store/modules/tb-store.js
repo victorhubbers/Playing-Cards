@@ -48,43 +48,26 @@ const actions = {
       commit("registerError", e.response);
     }
   },
-  async drawHigher({ commit }, payload) {
-    console.log(payload);
-    try {
-      const response = await axios.get(
-        "http://localhost:3000/deck/cards?amount=1"
-      );
-
-      commit("addCardToRow", {
-        card: response.data[0],
-        rowId: payload.rowId,
-        side: payload.side,
-        wantHigher: true
-      });
-    } catch (e) {
-      commit("registerError", e.response);
-    }
+  async drawHigher({ dispatch }, payload) {
+    payload.wantHigher = true;
+    dispatch("draw", payload);
   },
-  async drawLower({ commit }, payload) {
+  async drawLower({ dispatch }, payload) {
+    payload.wantHigher = false;
+    dispatch("draw", payload);
+  },
+  async draw({ commit }, payload) {
     console.log(payload);
     try {
       const response = await axios.get(
         "http://localhost:3000/deck/cards?amount=1"
       );
-
-      commit("addCardToRow", {
-        card: response.data[0],
-        rowId: payload.rowId,
-        side: payload.side,
-        wantHigher: false
-      });
+      payload.card = response.data[0];
+      commit("addCardToRow", payload);
     } catch (e) {
       commit("registerError", e.response);
     }
   }
-  // async draw({ commit }, ){
-  //
-  // }
 };
 
 const mutations = {
@@ -112,6 +95,7 @@ const mutations = {
     } else {
       endCard = row.cards[0];
     }
+
     let result;
     if (wantHigher) {
       result = card.value > endCard.value;
