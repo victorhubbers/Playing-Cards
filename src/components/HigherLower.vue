@@ -1,9 +1,17 @@
 <template>
   <div class="parent" id="hoverWrapper">
-    <v-icon @click="drawHigher" class="child" color="#009688" size="50"
+    <v-icon
+      @click="drawHigher(payload)"
+      class="child"
+      color="#009688"
+      size="50"
       >mdi-arrow-up-bold</v-icon
     >
-    <v-icon @click="drawLower" class="child" color="#F44336" size="50"
+    <v-icon
+      @click="drawLower(payload)"
+      class="child"
+      color="#F44336"
+      size="50"
       >mdi-arrow-down-bold</v-icon
     >
   </div>
@@ -15,7 +23,13 @@ import { mapActions } from "vuex";
 export default {
   name: "HigherLower",
   props: {
-    id: String
+    side: String,
+    rowId: Number
+  },
+  data(){
+    return{
+      payload: { side: this.side, rowId: this.rowId }
+    };
   },
   methods: {
     ...mapActions(["drawHigher", "drawLower"])

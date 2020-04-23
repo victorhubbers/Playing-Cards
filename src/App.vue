@@ -1,11 +1,13 @@
 <template>
   <div id="app">
-    <CardRow
-      v-for="row in getRows"
-      :key="row.id"
-      :cards="row.cards"
-      :height="cardHeight"
-    />
+    <div v-if="getActiveGame">
+      <CardRow
+        v-for="row in getRows"
+        :key="row.id"
+        :cards="row.cards"
+        :height="cardHeight"
+      />
+    </div>
     <fab
       position="bottom-right"
       bg-color="#000000"
@@ -13,6 +15,7 @@
       icon-size="small"
       @startGame="startGame"
     ></fab>
+    <p>{{ getError }}</p>
   </div>
 </template>
 
@@ -37,12 +40,16 @@ export default {
     ...mapActions(["startGame"])
   },
   computed: {
-    ...mapGetters(["getError", "getRows"])
+    ...mapGetters(["getError", "getRows", "getActiveGame"])
   }
 };
 </script>
 
 <style>
+body,
+html {
+  height: 100%;
+}
 #app {
   width: 100%;
   height: 100%;

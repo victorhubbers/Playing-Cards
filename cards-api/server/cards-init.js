@@ -46,22 +46,22 @@ const cards = [
   },
   {
     suit: "hearts",
-    value: "Jack",
+    value: 11,
     signature: "jh"
   },
   {
     suit: "hearts",
-    value: "Queen",
+    value: 12,
     signature: "qh"
   },
   {
     suit: "hearts",
-    value: "King",
+    value: 13,
     signature: "kh"
   },
   {
     suit: "hearts",
-    value: "Ace",
+    value: 14,
     signature: "ah"
   },
   {
@@ -111,22 +111,22 @@ const cards = [
   },
   {
     suit: "diamonds",
-    value: "Jack",
+    value: 11,
     signature: "jd"
   },
   {
     suit: "diamonds",
-    value: "Queen",
+    value: 12,
     signature: "qd"
   },
   {
     suit: "diamonds",
-    value: "King",
+    value: 13,
     signature: "kd"
   },
   {
     suit: "diamonds",
-    value: "Ace",
+    value: 14,
     signature: "ad"
   },
   {
@@ -176,22 +176,22 @@ const cards = [
   },
   {
     suit: "clubs",
-    value: "Jack",
+    value: 11,
     signature: "jc"
   },
   {
     suit: "clubs",
-    value: "Queen",
+    value: 12,
     signature: "qc"
   },
   {
     suit: "clubs",
-    value: "King",
+    value: 13,
     signature: "kc"
   },
   {
     suit: "clubs",
-    value: "Ace",
+    value: 14,
     signature: "ac"
   },
   {
@@ -241,22 +241,22 @@ const cards = [
   },
   {
     suit: "spades",
-    value: "Jack",
+    value: 11,
     signature: "js"
   },
   {
     suit: "spades",
-    value: "Queen",
+    value: 12,
     signature: "qs"
   },
   {
     suit: "spades",
-    value: "King",
+    value: 13,
     signature: "ks"
   },
   {
     suit: "spades",
-    value: "Ace",
+    value: 14,
     signature: "as"
   }
 ];

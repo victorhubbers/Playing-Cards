@@ -23,13 +23,17 @@ const state = {
       cards: []
     }
   ],
+  active: false,
   error: "",
   errorCard: {}
 };
 
 const getters = {
   getRows: state => state.rows,
-  getError: state => state.error
+  getError: state => {
+    return { error: state.error, errorCard: state.errorCard };
+  },
+  getActiveGame: state => state.active
 };
 
 const actions = {
@@ -44,7 +48,8 @@ const actions = {
       commit("registerError", e.response);
     }
   },
-  async drawHigher({ commit }) {
+  async drawHigher({ commit }, payload) {
+    console.log(payload.rowId);
     try {
       const response = await axios.get(
         "http://localhost:3000/deck/cards?amount=1"
@@ -52,15 +57,16 @@ const actions = {
 
       commit("addCardToRow", {
         card: response.data[0],
-        rowId: 1,
-        side: "R",
+        rowId: payload.rowId,
+        side: payload.side,
         wantHigher: true
       });
     } catch (e) {
       commit("registerError", e.response);
     }
   },
-  async drawLower({ commit }) {
+  async drawLower({ commit }, payload) {
+    console.log(payload);
     try {
       const response = await axios.get(
         "http://localhost:3000/deck/cards?amount=1"
@@ -68,14 +74,17 @@ const actions = {
 
       commit("addCardToRow", {
         card: response.data[0],
-        rowId: 1,
-        side: "R",
+        rowId: payload.rowId,
+        side: payload.side,
         wantHigher: false
       });
     } catch (e) {
       commit("registerError", e.response);
     }
   }
+  // async draw({ commit }, ){
+  //
+  // }
 };
 
 const mutations = {
@@ -84,6 +93,7 @@ const mutations = {
     for (let i = 0; i < length; i++) {
       state.rows[i].cards = newCards.splice(-1);
     }
+    state.active = true;
   },
   registerError: (state, errorMsg) => {
     console.log(errorMsg);
