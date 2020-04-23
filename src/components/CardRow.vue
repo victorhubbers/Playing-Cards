@@ -1,26 +1,47 @@
 <template>
   <div>
-    <span v-for="card in cards" :key="card.signature">
-      <VuePlayingCard :signature="card.signature" :height="140" />
-    </span>
+    <div id="container">
+      <HigherLower side="L" :row-id="rowId" />
+      <VuePlayingCard
+        v-for="card in cards"
+        :key="card.signature"
+        :signature="card.signature"
+        :height="height"
+      />
+      <HigherLower side="R" :row-id="rowId" />
+      <!--          <v-btn @click="click">ss</v-btn>-->
+    </div>
   </div>
 </template>
 
 <script>
 import { VuePlayingCard } from "vue-playing-card";
+import HigherLower from "./HigherLower";
 
 export default {
   name: "CardRow",
-  props: ["cards"],
+  props: {
+    cards: Array,
+    rowId: Number,
+    height: Number
+  },
+  data() {
+    return {};
+  },
   components: {
-    VuePlayingCard
+    VuePlayingCard,
+    HigherLower
   },
   methods: {}
 };
 </script>
 
 <style scoped>
-span {
+#container {
+  display: inline-flex;
+  padding: 3px;
+}
+svg {
   padding: 3px;
 }
 </style>
