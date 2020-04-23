@@ -8,13 +8,16 @@ app.use(cors());
 
 //import the deck, which is not shuffled yet.
 import cards from "./cards-init.js";
-let deck = shuffleFisherYates(cards);
+let deck = shuffleFisherYates(arrayCopyOf(cards));
 
 //(re)shuffle the deck
 
 //draw card(s) from the deck
 app.get("/deck/cards", function(req, res) {
   const amount = req.query.amount;
+  if (req.query.new === "true") {
+    deck = shuffleFisherYates(arrayCopyOf(cards));
+  }
   if (amount === undefined) {
     res.status(400).json("Must specify amount");
   } else {
@@ -27,10 +30,14 @@ app.get("/deck/cards", function(req, res) {
   }
 });
 
-//return cards to the deck
+//return cards to the deck & reshuffle the cards
 app.post("/deck/cards", function(req, res) {
+  console.log(deck.length);
+
   const returnedCards = req.body;
   deck = shuffleFisherYates(deck.concat(returnedCards));
+  console.log(deck.length);
+  console.log(deck);
 
   res.status(200);
 });
@@ -42,6 +49,10 @@ function shuffleFisherYates(deck) {
     [deck[i], deck[ri]] = [deck[ri], deck[i]];
   }
   return deck;
+}
+
+function arrayCopyOf(array) {
+  return [...array];
 }
 
 export default app;
