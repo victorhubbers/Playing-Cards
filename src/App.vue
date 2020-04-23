@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div v-if="getActiveGame">
+      <ErrorMessage />
       <CardRow
         v-for="row in getRows"
         :key="row.id"
@@ -16,18 +17,18 @@
       icon-size="small"
       @startGame="startGame"
     ></fab>
-    <p>{{ getError }}</p>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 import CardRow from "./components/CardRow";
+import ErrorMessage from "./components/ErrorMessage";
 import fab from "vue-fab";
 
 export default {
   name: "App",
-  components: { CardRow, fab },
+  components: { CardRow, ErrorMessage, fab },
   data: () => ({
     fabActions: [
       {
@@ -41,7 +42,7 @@ export default {
     ...mapActions(["startGame"])
   },
   computed: {
-    ...mapGetters(["getError", "getRows", "getActiveGame"])
+    ...mapGetters(["getRows", "getActiveGame"])
   }
 };
 </script>
