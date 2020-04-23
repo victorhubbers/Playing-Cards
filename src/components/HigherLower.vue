@@ -1,17 +1,9 @@
 <template>
   <div class="parent" id="hoverWrapper">
-    <v-icon
-      @click="drawHigher(payload)"
-      class="child"
-      color="#009688"
-      size="50"
+    <v-icon @click="drawHigher(payload)" class="child" color="#009688" size="50"
       >mdi-arrow-up-bold</v-icon
     >
-    <v-icon
-      @click="drawLower(payload)"
-      class="child"
-      color="#F44336"
-      size="50"
+    <v-icon @click="drawLower(payload)" class="child" color="#F44336" size="50"
       >mdi-arrow-down-bold</v-icon
     >
   </div>
@@ -26,8 +18,8 @@ export default {
     side: String,
     rowId: Number
   },
-  data(){
-    return{
+  data() {
+    return {
       payload: { side: this.side, rowId: this.rowId }
     };
   },

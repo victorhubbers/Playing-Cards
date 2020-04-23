@@ -4,6 +4,7 @@
       <CardRow
         v-for="row in getRows"
         :key="row.id"
+        :row-id="row.id"
         :cards="row.cards"
         :height="cardHeight"
       />

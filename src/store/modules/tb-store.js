@@ -49,7 +49,7 @@ const actions = {
     }
   },
   async drawHigher({ commit }, payload) {
-    console.log(payload.rowId);
+    console.log(payload);
     try {
       const response = await axios.get(
         "http://localhost:3000/deck/cards?amount=1"

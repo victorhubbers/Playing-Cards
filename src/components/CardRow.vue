@@ -1,14 +1,14 @@
 <template>
   <div>
     <div id="container">
-      <HigherLower side="L" row-id=4 />
+      <HigherLower side="L" :row-id="rowId" />
       <VuePlayingCard
         v-for="card in cards"
         :key="card.signature"
         :signature="card.signature"
         :height="height"
       />
-      <HigherLower side="R" />
+      <HigherLower side="R" :row-id="rowId" />
       <!--          <v-btn @click="click">ss</v-btn>-->
     </div>
   </div>
@@ -22,6 +22,7 @@ export default {
   name: "CardRow",
   props: {
     cards: Array,
+    rowId: Number,
     height: Number
   },
   data() {
