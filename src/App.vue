@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div v-if="getActiveGame">
-      <ErrorMessage />
+      <ErrorMessage :height="cardHeight" />
       <CardRow
         v-for="row in getRows"
         :key="row.id"
@@ -36,7 +36,7 @@ export default {
         icon: "play_circle_outline" //TBD: if in progress: restart option
       }
     ],
-    cardHeight: Math.floor((window.innerHeight - 25) / 5)
+    cardHeight: Math.floor((window.innerHeight - 23) / 5)
   }),
   methods: {
     ...mapActions(["startGame"])

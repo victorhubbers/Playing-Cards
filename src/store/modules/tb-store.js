@@ -33,6 +33,8 @@ const state = initialState();
 
 const getters = {
   getRows: state => state.rows,
+  getRowLength: state => id =>
+    state.rows.find(row => row.id === id).cards.length,
   getError: state => state.error,
   getErrorCard: state => state.errorCard,
   getActiveGame: state => state.active
@@ -124,6 +126,7 @@ const mutations = {
     }
 
     //if guessed wrong, store the wrong card
+    card.rowId = rowId;
     if (!result) {
       state.errorCard = card;
     }
