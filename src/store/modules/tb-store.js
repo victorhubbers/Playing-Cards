@@ -1,6 +1,7 @@
 import axios from "axios";
+import * as types from "../mutation-types";
 
-const state = {
+const initialState = () => ({
   rows: [
     {
       id: 0,
@@ -26,13 +27,16 @@ const state = {
   active: false,
   error: "",
   errorCard: {}
-};
+});
+
+const state = initialState();
 
 const getters = {
   getRows: state => state.rows,
-  getError: state => {
-    return { error: state.error, errorCard: state.errorCard };
-  },
+  getRowById: state => id => state.rows.find(row => row.id === id),
+  getRowLength: (state, getters) => id => getters.getRowById(id).cards.length,
+  getError: state => state.error,
+  getErrorCard: state => state.errorCard,
   getActiveGame: state => state.active
 };
 
@@ -43,75 +47,93 @@ const actions = {
         "http://localhost:3000/deck/cards?amount=5"
       );
 
-      commit("initialise", response.data);
+      commit(types.INITIALISE, response.data);
     } catch (e) {
-      commit("registerError", e.response);
+      commit(types.REGISTER_ERROR, e.response);
     }
   },
-  async drawHigher({ commit }, payload) {
-    console.log(payload);
+  reset({ commit }) {
+    commit("RESET");
+  },
+  guessHigher({ dispatch }, payload) {
+    payload.wantHigher = true;
+    dispatch("draw", payload);
+  },
+  guessLower({ dispatch }, payload) {
+    payload.wantHigher = false;
+    dispatch("draw", payload);
+  },
+  clearRow({ dispatch }, rowId) {
+    const payload = { rowId, wantHigher: null };
+    dispatch("returnCards", rowId);
+    dispatch("draw", payload);
+  },
+  async returnCards({ commit, getters }, rowId) {
+    try {
+      const cards = getters.getRowById(rowId).cards;
+      await axios.post("http://localhost:3000/deck/cards", { cards });
+    } catch (e) {
+      commit(types.REGISTER_ERROR, e.response);
+    }
+  },
+  async draw({ commit }, payload) {
     try {
       const response = await axios.get(
         "http://localhost:3000/deck/cards?amount=1"
       );
-
-      commit("addCardToRow", {
-        card: response.data[0],
-        rowId: payload.rowId,
-        side: payload.side,
-        wantHigher: true
-      });
+      payload.card = response.data[0];
+      if (payload.wantHigher === null) {
+        commit(types.RESET_ROW, payload);
+      } else {
+        commit(types.GUESS_CARD, payload);
+      }
     } catch (e) {
-      commit("registerError", e.response);
-    }
-  },
-  async drawLower({ commit }, payload) {
-    console.log(payload);
-    try {
-      const response = await axios.get(
-        "http://localhost:3000/deck/cards?amount=1"
-      );
-
-      commit("addCardToRow", {
-        card: response.data[0],
-        rowId: payload.rowId,
-        side: payload.side,
-        wantHigher: false
-      });
-    } catch (e) {
-      commit("registerError", e.response);
+      commit(types.REGISTER_ERROR, e.response);
     }
   }
-  // async draw({ commit }, ){
-  //
-  // }
 };
 
 const mutations = {
-  initialise: (state, newCards) => {
-    const length = newCards.length;
+  [types.INITIALISE]: (state, newCards) => {
+    const length = newCards.length; //TODO
     for (let i = 0; i < length; i++) {
       state.rows[i].cards = newCards.splice(-1);
     }
     state.active = true;
   },
-  registerError: (state, errorMsg) => {
-    console.log(errorMsg);
+  [types.RESET]: state => {
+    const newState = initialState();
+    Object.keys(newState).forEach(key => {
+      state[key] = newState[key];
+    });
+  },
+  [types.RESET_ROW]: (state, payload) => {
+    let row = state.rows.find(row => row.id === payload.rowId);
+    row.cards = [payload.card];
+    state.errorCard = {};
+  },
+  [types.REGISTER_ERROR]: (state, errorMsg) => {
+    if (errorMsg === undefined) {
+      errorMsg = { data: "Network error (server might be down)" };
+    }
     state.error = errorMsg.data;
   },
-  addCardToRow: (state, payload) => {
+  [types.GUESS_CARD]: (state, payload) => {
     const card = payload.card;
     const rowId = payload.rowId;
     const side = payload.side;
     const wantHigher = payload.wantHigher;
 
-    let row = state.rows[rowId];
+    //find out which card to compare to
+    let row = state.rows.find(row => row.id === rowId);
     let endCard;
     if (side === "R") {
       endCard = row.cards[row.cards.length - 1];
     } else {
       endCard = row.cards[0];
     }
+
+    //check whether user guessed correctly
     let result;
     if (wantHigher) {
       result = card.value > endCard.value;
@@ -119,15 +141,17 @@ const mutations = {
       result = card.value < endCard.value;
     }
 
-    if (result) {
-      if (side === "R") {
-        row.cards.push(card);
-      } else {
-        row.cards.unshift(card);
-      }
+    //add the card
+    if (side === "R") {
+      row.cards.push(card);
     } else {
-      state.errorCard = card;
-      state.error = "RIP";
+      row.cards.unshift(card);
+    }
+
+    //if guessed wrong, store the wrong card
+    const errorCard = { ...card, rowId };
+    if (!result) {
+      state.errorCard = errorCard;
     }
   }
 };

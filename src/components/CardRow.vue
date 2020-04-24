@@ -39,9 +39,9 @@ export default {
 <style scoped>
 #container {
   display: inline-flex;
-  padding: 3px;
+  padding: 2px;
 }
 svg {
-  padding: 3px;
+  padding: 1px;
 }
 </style>
