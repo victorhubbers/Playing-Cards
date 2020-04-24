@@ -34,7 +34,7 @@ app.get("/deck/cards", function(req, res) {
 app.post("/deck/cards", function(req, res) {
   const returnedCards = req.body.cards;
   deck = shuffleFisherYates(deck.concat(returnedCards));
-  res.status(200);
+  res.status(200).send();
 });
 
 function shuffleFisherYates(deck) {

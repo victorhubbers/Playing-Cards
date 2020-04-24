@@ -44,7 +44,7 @@ const actions = {
   async startGame({ commit }) {
     try {
       const response = await axios.get(
-        "http://localhost:3000/deck/cards?amount=5"
+        "http://localhost:3000/deck/cards?amount=5&new=true"
       );
 
       commit(types.INITIALISE, response.data);
@@ -95,8 +95,7 @@ const actions = {
 
 const mutations = {
   [types.INITIALISE]: (state, newCards) => {
-    const length = newCards.length; //TODO
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < state.rows.length; i++) {
       state.rows[i].cards = newCards.splice(-1);
     }
     state.active = true;
