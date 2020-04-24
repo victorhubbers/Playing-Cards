@@ -32,13 +32,8 @@ app.get("/deck/cards", function(req, res) {
 
 //return cards to the deck & reshuffle the cards
 app.post("/deck/cards", function(req, res) {
-  console.log(deck.length);
-
-  const returnedCards = req.body;
+  const returnedCards = req.body.cards;
   deck = shuffleFisherYates(deck.concat(returnedCards));
-  console.log(deck.length);
-  console.log(deck);
-
   res.status(200);
 });
 

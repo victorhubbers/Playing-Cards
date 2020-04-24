@@ -8,14 +8,14 @@
       />
       <div id="error-message">
         <h5>This row had a length of {{ rowLength }}</h5>
-        <v-btn x-small>Clean row</v-btn>
+        <v-btn @click="clearRow(getErrorCard.rowId)" x-small>Continue</v-btn>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import { VuePlayingCard } from "vue-playing-card";
 
 export default {
@@ -35,6 +35,9 @@ export default {
       // noinspection JSValidateTypes
       return this.getRowLength(this.getErrorCard.rowId);
     }
+  },
+  methods: {
+    ...mapActions(["clearRow"])
   }
 };
 </script>
@@ -47,7 +50,7 @@ export default {
   background: rgba(255, 0, 0, 0.5);
 }
 #error-banner {
-  padding-top: 5px;
+  padding-top: 2px;
   padding-bottom: 5px;
   color: white;
   background: rgba(0, 0, 0, 0.6);

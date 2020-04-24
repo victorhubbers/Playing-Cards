@@ -33,8 +33,8 @@ const state = initialState();
 
 const getters = {
   getRows: state => state.rows,
-  getRowLength: state => id =>
-    state.rows.find(row => row.id === id).cards.length,
+  getRowById: state => id => state.rows.find(row => row.id === id),
+  getRowLength: (state, getters) => id => getters.getRowById(id).cards.length,
   getError: state => state.error,
   getErrorCard: state => state.errorCard,
   getActiveGame: state => state.active
@@ -55,22 +55,38 @@ const actions = {
   reset({ commit }) {
     commit("RESET");
   },
-  async guessHigher({ dispatch }, payload) {
+  guessHigher({ dispatch }, payload) {
     payload.wantHigher = true;
     dispatch("draw", payload);
   },
-  async guessLower({ dispatch }, payload) {
+  guessLower({ dispatch }, payload) {
     payload.wantHigher = false;
     dispatch("draw", payload);
   },
+  clearRow({ dispatch }, rowId) {
+    const payload = { rowId, wantHigher: null };
+    dispatch("returnCards", rowId);
+    dispatch("draw", payload);
+  },
+  async returnCards({ commit, getters }, rowId) {
+    try {
+      const cards = getters.getRowById(rowId).cards;
+      await axios.post("http://localhost:3000/deck/cards", { cards });
+    } catch (e) {
+      commit(types.REGISTER_ERROR, e.response);
+    }
+  },
   async draw({ commit }, payload) {
-    console.log(payload);
     try {
       const response = await axios.get(
         "http://localhost:3000/deck/cards?amount=1"
       );
       payload.card = response.data[0];
-      commit(types.GUESS_CARD, payload);
+      if (payload.wantHigher === null) {
+        commit(types.RESET_ROW, payload);
+      } else {
+        commit(types.GUESS_CARD, payload);
+      }
     } catch (e) {
       commit(types.REGISTER_ERROR, e.response);
     }
@@ -79,7 +95,7 @@ const actions = {
 
 const mutations = {
   [types.INITIALISE]: (state, newCards) => {
-    const length = newCards.length;
+    const length = newCards.length; //TODO
     for (let i = 0; i < length; i++) {
       state.rows[i].cards = newCards.splice(-1);
     }
@@ -91,8 +107,15 @@ const mutations = {
       state[key] = newState[key];
     });
   },
+  [types.RESET_ROW]: (state, payload) => {
+    let row = state.rows.find(row => row.id === payload.rowId);
+    row.cards = [payload.card];
+    state.errorCard = {};
+  },
   [types.REGISTER_ERROR]: (state, errorMsg) => {
-    console.log(errorMsg);
+    if (errorMsg === undefined) {
+      errorMsg = { data: "Network error (server might be down)" };
+    }
     state.error = errorMsg.data;
   },
   [types.GUESS_CARD]: (state, payload) => {
@@ -102,7 +125,7 @@ const mutations = {
     const wantHigher = payload.wantHigher;
 
     //find out which card to compare to
-    let row = state.rows[rowId];
+    let row = state.rows.find(row => row.id === rowId);
     let endCard;
     if (side === "R") {
       endCard = row.cards[row.cards.length - 1];
@@ -126,9 +149,9 @@ const mutations = {
     }
 
     //if guessed wrong, store the wrong card
-    card.rowId = rowId;
+    const errorCard = { ...card, rowId };
     if (!result) {
-      state.errorCard = card;
+      state.errorCard = errorCard;
     }
   }
 };
