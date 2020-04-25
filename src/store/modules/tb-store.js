@@ -35,6 +35,7 @@ const getters = {
   getRows: state => state.rows,
   getRowById: state => id => state.rows.find(row => row.id === id),
   getRowLength: (state, getters) => id => getters.getRowById(id).cards.length,
+  getCardsByRowId: (state, getters) => id => getters.getRowById(id).cards,
   getError: state => state.error,
   getErrorCard: state => state.errorCard,
   getActiveGame: state => state.active
