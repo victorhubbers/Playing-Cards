@@ -1,6 +1,11 @@
 import axios from "axios";
 import * as types from "../mutation-types";
 
+const apiUrl =
+  process.env.NODE_ENV === "production"
+    ? "http://localhost:3000"
+    : "http://localhost:3000";
+
 const initialState = () => ({
   rows: [
     {
@@ -45,7 +50,7 @@ const actions = {
   async startGame({ commit }) {
     try {
       const response = await axios.get(
-        "http://localhost:3000/deck/cards?amount=5&new=true"
+        apiUrl + "/deck/cards?amount=5&new=true"
       );
 
       commit(types.INITIALISE, response.data);
@@ -72,16 +77,14 @@ const actions = {
   async returnCards({ commit, getters }, rowId) {
     try {
       const cards = getters.getRowById(rowId).cards;
-      await axios.post("http://localhost:3000/deck/cards", { cards });
+      await axios.post(apiUrl + "/deck/cards", { cards });
     } catch (e) {
       commit(types.REGISTER_ERROR, e.response);
     }
   },
   async draw({ commit }, payload) {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/deck/cards?amount=1"
-      );
+      const response = await axios.get(apiUrl + "/deck/cards?amount=1");
       payload.card = response.data[0];
       if (payload.wantHigher === null) {
         commit(types.RESET_ROW, payload);

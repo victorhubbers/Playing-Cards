@@ -1,5 +1,5 @@
 {
-  "name": "TB-Backend",
+  "name": "cards-api",
   "version": "1.0.2",
   "description": "REST API for deck of cards",
   "main": "index.js",

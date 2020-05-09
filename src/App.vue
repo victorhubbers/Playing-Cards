@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Game v-if="getActiveGame" :height="cardHeight" />
-    <GamePlaceholder v-else :height="cardHeight" />
+    <game v-if="getActiveGame" :height="cardHeight"></game>
+    <game-placeholder v-else :height="cardHeight"></game-placeholder>
     <fab
       position="bottom-right"
       bg-color="#000000"
