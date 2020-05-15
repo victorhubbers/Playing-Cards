@@ -1,15 +1,7 @@
 <template>
   <div id="app">
-    <div v-if="getActiveGame">
-      <ErrorMessage :height="cardHeight" />
-      <CardRow
-        v-for="row in getRows"
-        :key="row.id"
-        :row-id="row.id"
-        :cards="row.cards"
-        :height="cardHeight"
-      />
-    </div>
+    <game v-if="getActiveGame" :height="cardHeight"></game>
+    <game-placeholder v-else :height="cardHeight"></game-placeholder>
     <fab
       position="bottom-right"
       bg-color="#000000"
@@ -22,13 +14,13 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import CardRow from "./components/CardRow";
-import ErrorMessage from "./components/ErrorMessage";
+import Game from "./components/Game";
+import GamePlaceholder from "./components/GamePlaceholder";
 import fab from "vue-fab";
 
 export default {
   name: "App",
-  components: { CardRow, ErrorMessage, fab },
+  components: { fab, Game, GamePlaceholder },
   data: () => ({
     fabActions: [
       {
@@ -42,7 +34,7 @@ export default {
     ...mapActions(["startGame"])
   },
   computed: {
-    ...mapGetters(["getRows", "getActiveGame"])
+    ...mapGetters(["getActiveGame"])
   }
 };
 </script>

@@ -1,4 +1,11 @@
-# tb
+# Total Blackout
+Card game made during corona lock down because I was bored.
+
+
+## Usage
+
+Run `npm install` in the root and in `/cards-api`, then either start the backend manually with `cd cards-api && npm run start` or make sure docker is running and use the `backen:run` script in the root `package.json`.
+Finally run `npm run serve` to use the vue-cli-service. 
 
 ## Project setup
 ```

@@ -1,5 +1,5 @@
 <template>
-  <div id="error" v-if="show">
+  <div id="error">
     <div id="error-banner">
       <h3>WRONG!</h3>
       <VuePlayingCard
@@ -28,9 +28,6 @@ export default {
   },
   computed: {
     ...mapGetters(["getErrorCard", "getRowLength"]),
-    show() {
-      return this.getErrorCard.signature !== undefined;
-    },
     rowLength() {
       // noinspection JSValidateTypes
       return this.getRowLength(this.getErrorCard.rowId);
