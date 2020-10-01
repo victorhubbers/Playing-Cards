@@ -1,11 +1,8 @@
 {
-  "name": "TotalBlackout",
+  "name": "PlayingCards",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "backend:run": "cd cards-api && docker build -t cards-api . && docker run --name cards-api -p 3000:3000 -d cards-api:latest",
-    "backend:stop": "docker stop cards-api && docker rm cards-api",
-    "backend:rerun": "npm run backend:stop && npm run backend:run",
     "serve": "npm run lint && vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"

@@ -1,10 +1,6 @@
-import axios from "axios";
 import * as types from "../mutation-types";
-
-const apiUrl =
-  process.env.NODE_ENV === "production"
-    ? "http://localhost:3000"
-    : "http://localhost:3000";
+import { drawCards, putBackInDeck } from "../deck";
+//Note: I was using a node.js server to control the deck before, but i've moved it all into "../deck.js"
 
 const initialState = () => ({
   rows: [
@@ -48,14 +44,11 @@ const getters = {
 
 const actions = {
   async startGame({ commit }) {
-    try {
-      const response = await axios.get(
-        apiUrl + "/deck/cards?amount=5&new=true"
-      );
-
-      commit(types.INITIALISE, response.data);
-    } catch (e) {
-      commit(types.REGISTER_ERROR, e.response);
+    let cards = drawCards(5, true);
+    if (cards) {
+      commit(types.INITIALISE, cards);
+    } else {
+      commit(types.REGISTER_ERROR, "Not enough cards left in the deck");
     }
   },
   reset({ commit }) {
@@ -74,25 +67,22 @@ const actions = {
     dispatch("returnCards", rowId);
     dispatch("draw", payload);
   },
-  async returnCards({ commit, getters }, rowId) {
-    try {
-      const cards = getters.getRowById(rowId).cards;
-      await axios.post(apiUrl + "/deck/cards", { cards });
-    } catch (e) {
-      commit(types.REGISTER_ERROR, e.response);
-    }
+  async returnCards({ getters }, rowId) {
+    const cards = getters.getRowById(rowId).cards;
+    putBackInDeck(cards);
   },
   async draw({ commit }, payload) {
-    try {
-      const response = await axios.get(apiUrl + "/deck/cards?amount=1");
-      payload.card = response.data[0];
+    let card = drawCards(1, false);
+    if (card) {
+      payload.card = card[0];
+
       if (payload.wantHigher === null) {
         commit(types.RESET_ROW, payload);
       } else {
         commit(types.GUESS_CARD, payload);
       }
-    } catch (e) {
-      commit(types.REGISTER_ERROR, e.response);
+    } else {
+      commit(types.REGISTER_ERROR, "No cards left in the deck.");
     }
   }
 };
@@ -151,7 +141,7 @@ const mutations = {
       row.cards.unshift(card);
     }
 
-    //if guessed wrong, store the wrong card
+    //if guessed wrong, store the wrong card and give and error
     const errorCard = { ...card, rowId };
     if (!result) {
       state.errorCard = errorCard;

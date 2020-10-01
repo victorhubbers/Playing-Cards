@@ -45,10 +45,12 @@ html {
   height: 100%;
 }
 #app {
-  width: 100%;
-  height: 100%;
+  font-family: "Roboto";
+  width: 100vw;
+  height: 100vh;
   text-align: center;
   /*noinspection CssUnknownTarget*/
   background-image: url("~@/assets/table-bg.jpg");
+  background-size: cover;
 }
 </style>
