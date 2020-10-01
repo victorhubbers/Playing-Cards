@@ -1,31 +1,10 @@
-# Total Blackout
+# Playing cards
 Card game made during corona lock down because I was bored.
 
+## RULES:
 
-## Usage
-
-Run `npm install` in the root and in `/cards-api`, then either start the backend manually with `cd cards-api && npm run start` or make sure docker is running and use the `backen:run` script in the root `package.json`.
-Finally run `npm run serve` to use the vue-cli-service. 
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Player needs to guess higher or lower on any side of any row.
+Player can pass the turn after:
+  - 3 consecutive correct guesses.
+  - Making 1 row to be the longest, does not matter which row.
+Player is always free to keep going, but streaks always reset after an incorrect guess.
