@@ -2,7 +2,7 @@
   <div id="app">
     <header>
       By
-      <a target="blank" href="https://www.victorhubbers.com">Victor Hubbers</a>
+      <a target="_blank" href="https://www.victorhubbers.com">Victor Hubbers</a>
     </header>
     <game v-if="getActiveGame" :height="cardHeight"></game>
     <game-placeholder v-else :height="cardHeight"></game-placeholder>
