@@ -1,14 +1,22 @@
 <template>
   <div id="error">
     <div id="error-banner">
-      <h3>WRONG!</h3>
+      <h2>Wrong Guess!</h2>
       <VuePlayingCard
+        style="margin: 5px 0"
         :signature="getErrorCard.signature"
         :height="1.2 * height"
       />
       <div id="error-message">
-        <h5>This row had a length of {{ rowLength }}</h5>
-        <v-btn @click="clearRow(getErrorCard.rowId)" x-small>Continue</v-btn>
+        <p>This row was {{ rowLength }} cards long.</p>
+        <v-btn
+          depressed
+          dark
+          color="#FF4444"
+          @click="clearRow(getErrorCard.rowId)"
+          small
+          >Continue</v-btn
+        >
       </div>
     </div>
   </div>
@@ -47,8 +55,8 @@ export default {
   background: rgba(255, 0, 0, 0.5);
 }
 #error-banner {
-  padding-top: 2px;
-  padding-bottom: 5px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   color: white;
   background: rgba(0, 0, 0, 0.6);
   position: absolute;
@@ -57,5 +65,10 @@ export default {
   width: 100%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+
+p {
+  font-size: 1rem;
+  margin-bottom: 10px;
 }
 </style>

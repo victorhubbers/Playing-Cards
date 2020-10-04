@@ -6,40 +6,40 @@ const initialState = () => ({
   rows: [
     {
       id: 0,
-      cards: []
+      cards: [],
     },
     {
       id: 1,
-      cards: []
+      cards: [],
     },
     {
       id: 2,
-      cards: []
+      cards: [],
     },
     {
       id: 3,
-      cards: []
+      cards: [],
     },
     {
       id: 4,
-      cards: []
-    }
+      cards: [],
+    },
   ],
   active: false,
   error: "",
-  errorCard: {}
+  errorCard: {},
 });
 
 const state = initialState();
 
 const getters = {
-  getRows: state => state.rows,
-  getRowById: state => id => state.rows.find(row => row.id === id),
-  getRowLength: (state, getters) => id => getters.getRowById(id).cards.length,
-  getCardsByRowId: (state, getters) => id => getters.getRowById(id).cards,
-  getError: state => state.error,
-  getErrorCard: state => state.errorCard,
-  getActiveGame: state => state.active
+  getRows: (state) => state.rows,
+  getRowById: (state) => (id) => state.rows.find((row) => row.id === id),
+  getRowLength: (state, getters) => (id) => getters.getRowById(id).cards.length,
+  getCardsByRowId: (state, getters) => (id) => getters.getRowById(id).cards,
+  getError: (state) => state.error,
+  getErrorCard: (state) => state.errorCard,
+  getActiveGame: (state) => state.active,
 };
 
 const actions = {
@@ -84,7 +84,7 @@ const actions = {
     } else {
       commit(types.REGISTER_ERROR, "No cards left in the deck.");
     }
-  }
+  },
 };
 
 const mutations = {
@@ -93,15 +93,17 @@ const mutations = {
       state.rows[i].cards = newCards.splice(-1);
     }
     state.active = true;
+    state.error = "";
+    state.errorCard = {};
   },
-  [types.RESET]: state => {
+  [types.RESET]: (state) => {
     const newState = initialState();
-    Object.keys(newState).forEach(key => {
+    Object.keys(newState).forEach((key) => {
       state[key] = newState[key];
     });
   },
   [types.RESET_ROW]: (state, payload) => {
-    let row = state.rows.find(row => row.id === payload.rowId);
+    let row = state.rows.find((row) => row.id === payload.rowId);
     row.cards = [payload.card];
     state.errorCard = {};
   },
@@ -118,7 +120,7 @@ const mutations = {
     const wantHigher = payload.wantHigher;
 
     //find out which card to compare to
-    let row = state.rows.find(row => row.id === rowId);
+    let row = state.rows.find((row) => row.id === rowId);
     let endCard;
     if (side === "R") {
       endCard = row.cards[row.cards.length - 1];
@@ -146,12 +148,12 @@ const mutations = {
     if (!result) {
       state.errorCard = errorCard;
     }
-  }
+  },
 };
 
 export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };
