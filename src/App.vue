@@ -4,8 +4,20 @@
       By
       <a target="_blank" href="https://www.victorhubbers.com">Victor Hubbers</a>
     </header>
-    <game v-if="getActiveGame" :height="cardHeight"></game>
-    <game-placeholder v-else :height="cardHeight"></game-placeholder>
+    <game
+      v-if="getActiveGame && $vuetify.breakpoint.mdAndUp"
+      :height="cardHeight"
+    ></game>
+    <game-placeholder
+      v-else-if="$vuetify.breakpoint.mdAndUp"
+      :height="cardHeight"
+    ></game-placeholder>
+    <div v-else class="centered">
+      <strong style="color: white; font-size: 18px">
+        Your device is not suited for this game, try again on a bigger screen!
+      </strong>
+    </div>
+
     <fab
       position="bottom-right"
       bg-color="#4ed494"
@@ -34,11 +46,21 @@ export default {
     ],
     cardHeight: Math.floor((window.innerHeight - 23) / 5)
   }),
-  methods: {
-    ...mapActions(["startGame"])
-  },
+
   computed: {
     ...mapGetters(["getActiveGame"])
+  },
+  methods: {
+    ...mapActions(["startGame"]),
+    setCardHeight() {
+      this.cardHeight = Math.floor((window.innerHeight - 23) / 5);
+    }
+  },
+  created() {
+    window.addEventListener("resize", this.setCardHeight);
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.setCardHeight);
   }
 };
 </script>
@@ -68,5 +90,13 @@ header a {
   /*noinspection CssUnknownTarget*/
   background-image: url("~@/assets/table-bg.webp");
   background-size: cover;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 </style>
