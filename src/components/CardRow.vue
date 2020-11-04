@@ -1,14 +1,24 @@
 <template>
   <div>
     <div id="container">
-      <HigherLower v-if="getActiveGame" side="L" :row-id="rowId" />
+      <HigherLower
+        v-if="getActiveGame"
+        side="L"
+        :row-id="rowId"
+        :cardHeight="height"
+      />
       <VuePlayingCard
         v-for="card in cards"
         :key="card.signature"
         :signature="card.signature"
         :height="height"
       />
-      <HigherLower v-if="getActiveGame" side="R" :row-id="rowId" />
+      <HigherLower
+        v-if="getActiveGame"
+        side="R"
+        :row-id="rowId"
+        :cardHeight="height"
+      />
     </div>
   </div>
 </template>

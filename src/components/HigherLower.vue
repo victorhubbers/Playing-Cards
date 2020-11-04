@@ -1,5 +1,12 @@
 <template>
-  <div class="parent" id="hoverWrapper">
+  <div
+    class="parent"
+    id="hoverWrapper"
+    :style="{
+      width: cardHeight * 0.71428571428 + 'px',
+      'max-height': cardHeight
+    }"
+  >
     <v-icon
       @click="guessHigher(payload)"
       class="child"
@@ -23,7 +30,8 @@ export default {
   name: "HigherLower",
   props: {
     side: String,
-    rowId: Number
+    rowId: Number,
+    cardHeight: Number
   },
   data() {
     return {
@@ -39,13 +47,9 @@ export default {
 <style scoped>
 #hoverWrapper:hover {
   display: inline-grid;
-  width: 94px;
   border-radius: 5px;
   border: 2px dashed rgba(100, 100, 100, 1);
   background: rgba(211, 211, 211, 0.6);
-}
-#hoverWrapper {
-  width: 94px;
 }
 .child {
   visibility: hidden;
