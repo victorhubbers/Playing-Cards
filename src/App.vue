@@ -54,9 +54,29 @@ export default {
     ...mapActions(["startGame"]),
     setCardHeight() {
       this.cardHeight = Math.floor((window.innerHeight - 23) / 5);
+    },
+    async setImgFormat() {
+      const webpClass = (await this.hasWebp()) ? "webp" : "no-webp";
+      let root = document.documentElement;
+      root.classList.add(webpClass);
+    },
+    async hasWebp() {
+      return new Promise(resolve => {
+        var img = new Image();
+        img.onload = function() {
+          var result = img.width > 0 && img.height > 0;
+          resolve(result);
+        };
+        img.onerror = function() {
+          resolve(false);
+        };
+        img.src =
+          "data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA";
+      });
     }
   },
   created() {
+    this.setImgFormat();
     window.addEventListener("resize", this.setCardHeight);
   },
   destroyed() {
@@ -82,13 +102,22 @@ header {
 header a {
   color: #4ed494;
 }
+
+.webp #app {
+  /*noinspection CssUnknownTarget*/
+  background-image: url("~@/assets/table-bg.webp");
+}
+
+.no-webp #app {
+  /*noinspection CssUnknownTarget*/
+  background-image: url("~@/assets/table-bg.jpg");
+}
+
 #app {
   font-family: "Roboto";
   width: 100vw;
   height: 100vh;
   text-align: center;
-  /*noinspection CssUnknownTarget*/
-  background-image: url("~@/assets/table-bg.webp");
   background-size: cover;
 }
 
